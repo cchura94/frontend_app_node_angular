@@ -1,0 +1,14 @@
+para cre ar un módulo
+> ng generate module auth --routing
+> ng g m admin --routing
+> ng g m core
+> ng g m shared
+
+para generar un component
+
+> ng g c incio
+> ng g c auth/components/login
+> ng g c auth/components/registro
+> ng g c admin/components/perfil
+> ng g c layout
+
