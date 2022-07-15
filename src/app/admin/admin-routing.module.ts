@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppMainComponent } from '../app.main.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
   {
-    path: 'perfil',
-    component: PerfilComponent
+    path: '',
+    component: AppMainComponent,
+    children: [
+      {
+        path: 'perfil',
+        component: PerfilComponent
+      }
+    ]
   }
 ];
 

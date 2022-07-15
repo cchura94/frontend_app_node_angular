@@ -5,6 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { CoreModule } from '../core/core.module';
 import { HttpClientModule } from '@angular/common/http';
+import { PrimengModule } from '../primeng/primeng.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
     AdminRoutingModule,
     HttpClientModule,
     CoreModule,
+    PrimengModule
   ]
 })
 export class AdminModule { }
