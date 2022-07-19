@@ -83,7 +83,6 @@ import { TreeTableModule } from 'primeng/treetable';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 
 
-
 @NgModule({
   declarations: [],
   imports: [
@@ -168,6 +167,7 @@ import { VirtualScrollerModule } from 'primeng/virtualscroller';
         TreeTableModule,
         VirtualScrollerModule,
         StyleClassModule,
+        
   ],
   exports: [
     AccordionModule,

@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfigService } from '../service/app.config.service';
-import { AppConfig } from '../api/appconfig';
+import { Subscription } from 'rxjs';
+import { AppConfig } from 'src/app/api/appconfig';
+import { ConfigService } from 'src/app/service/app.config.service';
 
 @Component({
-  selector: 'app-incio',
-  templateUrl: './incio.component.html',
-  styleUrls: ['./incio.component.scss'],
+  selector: 'app-menu-pagina',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
   styles: [`
   #hero{
     background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EEEFAF 0%, #C3E3FA 100%);
@@ -61,7 +61,7 @@ import { AppConfig } from '../api/appconfig';
   }
 `]
 })
-export class IncioComponent implements OnInit {
+export class MenuComponent implements OnInit {
 
   config: AppConfig;  
 
@@ -81,7 +81,7 @@ export class IncioComponent implements OnInit {
       this.subscription.unsubscribe();
     }
   }
-
-
-
+redirectLogin(){
+    this.router.navigate(['/auth/login'])
+  }
 }

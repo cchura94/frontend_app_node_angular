@@ -7,6 +7,7 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
 import { CoreModule } from '../core/core.module';
+import { PrimengModule } from '../primeng/primeng.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CoreModule } from '../core/core.module';
     AuthRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CoreModule
+    CoreModule,
+    PrimengModule
   ]
 })
 export class AuthModule { }
