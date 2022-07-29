@@ -10,6 +10,9 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoriaComponent } from './components/categoria/categoria.component';
 import { ProductoComponent } from './components/producto/producto.component';
+import { ListaPedidoComponent } from './components/pedido/lista-pedido/lista-pedido.component';
+import { NuevoPedidoComponent } from './components/pedido/nuevo-pedido/nuevo-pedido.component';
+import { MostrarPedidoComponent } from './components/pedido/mostrar-pedido/mostrar-pedido.component';
 
 
 @NgModule({
@@ -17,7 +20,10 @@ import { ProductoComponent } from './components/producto/producto.component';
     PerfilComponent,
     UsuarioComponent,
     CategoriaComponent,
-    ProductoComponent
+    ProductoComponent,
+    ListaPedidoComponent,
+    NuevoPedidoComponent,
+    MostrarPedidoComponent
   ],
   imports: [
     CommonModule,

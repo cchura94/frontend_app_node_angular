@@ -12,3 +12,129 @@
         </ng-template>
     </p-toolbar>
 </div>
+
+
+<p-table #dt [value]="products" [rows]="10" [lazy]="true" [totalRecords]="totalRecords" [loading]="loading" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" responsiveLayout="scroll"
+        [(selection)]="selectedProducts" [rowHover]="true" dataKey="id" (onLazyLoad)="getProductos($event)"
+        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <h5 class="m-0">Administrar Products</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search..." />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="nombre">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+                <th>Image</th>
+                <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="categoria_id">Categoria <p-sortIcon field="category"></p-sortIcon></th>
+                <th pSortableColumn="cantidd">Stock <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                </td>
+                <td>{{product.nombre}}</td>
+                <td><img [src]="base_url_img+'/imagenes/' + product.imagen" [alt]="product.name" width="100" class="shadow-4" /></td>
+                <td>{{product.precio | currency:'Bs. '}}</td>
+                <td>{{product.Categorium.nombre}}</td>
+                <td>{{product.stock}}</td>
+                <td><span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span></td>
+                <td>
+                    <p-button (click)="mostrarModalDialogImagen(product)" icon="pi pi-file-link" label="IMAGEN"></p-button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(product)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(product)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="flex align-items-center justify-content-between">
+                In total there are {{products ? products.length : 0 }} products.
+            </div>
+        </ng-template>
+    </p-table>
+
+
+    <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Detalles del Producto" [modal]="true" styleClass="p-fluid">
+        <ng-template pTemplate="content">
+            {{ productoForm.value|json }}
+            <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image">
+            <div [formGroup]="productoForm">
+
+                <div class="field">
+                    <label for="name">Nombre</label>
+                    <input type="text" pInputText id="nombre" formControlName="nombre" required autofocus  />
+                    
+                </div>
+                <div class="field">
+                    <label for="description">Descripción</label>
+                    <textarea id="description" pInputTextarea formControlName="descripcion" required rows="3" cols="20"></textarea>
+                </div>
+                <div class="field">
+                    <label for="inventoryStatus">Estado</label>
+                    <p-dropdown formControlName="estado" inputId="inventoryStatus" [options]="statuses" placeholder="Select">
+                        <ng-template let-option pTemplate="item">
+                            <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+        
+                <div class="field">
+                    <label class="mb-3">Categoria</label>
+                    <div class="formgrid grid">
+                        <div class="field-radiobutton col-6" *ngFor="let cat of categorias">
+                            <p-radioButton value="{{cat.id}}" formControlName="categoriaId"></p-radioButton>
+                            <label >{{ cat.nombre }}</label>
+                        </div>
+                        
+                    </div>
+                </div>
+        
+                <div class="formgrid grid">
+                    <div class="field col">
+                        <label for="price">Precio</label>
+                        <p-inputNumber id="price" formControlName="precio" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+                    </div>
+                    <div class="field col">
+                        <label for="quantity">Stock</label>
+                        <p-inputNumber id="quantity" formControlName="stock"></p-inputNumber>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+        </ng-template>
+    </p-dialog>
+
+
+    
+<p-dialog header="Actualizar IMAGEN" [(visible)]="displayModalImagen" [modal]="true" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+   
+    <p-fileUpload #uploader (onBeforeUpload)="onBeforeUploadListener($event, uploader)"
+            multiple="multiple" accept="image/*" maxFileSize="1000000">
+            <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                </ul>
+            </ng-template>
+    </p-fileUpload>
+
+   
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+        </ng-template>
+</p-dialog>
